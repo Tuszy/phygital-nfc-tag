@@ -20,28 +20,30 @@ The idea is to create a custom battery-less uniquely identifiable NFC tag that w
 2. First boot of µC generates secp256k1 key pair and saves it into flash/eeprom
 3. Use [Phygital App](https://github.com/Tuszy/phygital-app) with NFC capable mobile phone:
    1.  to read public key (= Lukso address) of NFC tag
-   2.  to write and read LSP7/8 contract address of phygital
+   2.  to write and read [LSP7](https://docs.lukso.tech/standards/nft-2.0/LSP7-Digital-Asset/)/[LSP8](https://docs.lukso.tech/standards/nft-2.0/LSP8-Identifiable-Digital-Asset) contract address of phygital
    3.  to sign keccak256 hashed message with private key of NFC tag (used for minting and verification of phygital)
 
-## Dev and test environment
+## Software for Dev
 
 - [Arduino IDE](https://www.arduino.cc/) - Used for developing the phygital firmware
 - [STM32Duino](https://github.com/stm32duino) - Used for integrating the STM32 µC into the Arduino IDE
 - [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html) - Used for setting the clock frequency of the STM32 µC (ultra low power)
 
-## Libraries
+### Libraries
 
-- [micro-ecc](https://github.com/kmackay/micro-ecc/tree/static) - Used for Secp256k1 elliptic curve asymmetric key pair generation and signing of keccak256 hashes
+- [micro-ecc](https://github.com/kmackay/micro-ecc/tree/static) - Used for secp256k1 elliptic curve asymmetric key pair generation and signing of keccak256 hashes
 - [keccak](https://github.com/kvhnuke/Ethereum-Arduino/blob/master/Ethereum-Arduino/keccak.cpp) - Used for computing keccak256 hashes
 - [SparkFun ST25DV64KC Arduino Library](https://github.com/sparkfun/SparkFun_ST25DV64KC_Arduino_Library/tree/main) - Used for interacting with the [SparkFun Qwiic Dynamic NFC/RFID Tag](https://www.sparkfun.com/products/21274)
 - [Serial](https://www.arduino.cc/reference/en/language/functions/communication/serial/) - Used for debug logs
 - [Wire](https://www.arduino.cc/reference/en/language/functions/communication/wire/) - Used for I2C communication between the STM32 µC and ST25DV64KC chip 
 
-## Electronic components for dev
+## Electronic components
+
+### Dev and test
 - [Nucleo-32 L432KC](https://www.st.com/en/evaluation-tools/nucleo-l432kc.html) - Ultra low power µC devboard based on the [STM32L432KC](https://www.st.com/en/microcontrollers-microprocessors/stm32l432kc.html)
 - [SparkFun Qwiic Dynamic NFC/RFID Tag](https://www.sparkfun.com/products/21274) - Dynamic NFC/RFID tag based on the [ST25DV64KC](https://www.st.com/en/nfc/st25dv64kc.html)
 
-## Electronic components for production
+### Production
 - [STLINK-V3MINIE](https://www.st.com/en/development-tools/stlink-v3minie.html) - In-circuit debugger and programmer for STM32 µC
 - [STM32L432KC](https://www.st.com/en/microcontrollers-microprocessors/stm32l432kc.html) - Ultra low power STM32L4 µC - [Purchase link](https://jlcpcb.com/partdetail/Stmicroelectronics-STM32L432KCU6/C1337280) 
 - [ST25DV64KC](https://www.st.com/en/nfc/st25dv64kc.html) - Dual-interface dynamic NFC/RFID tag with energy harvesting capability - [Purchase link](https://jlcpcb.com/partdetail/Stmicroelectronics-ST25DV64KCIE8T3/C3304589)
