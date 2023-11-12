@@ -1,6 +1,7 @@
 #include "Wallet.h"
 #include "uECC.h" // https://github.com/kmackay/micro-ecc/tree/static
 #include "crypto-util.h"
+#include "random.h"
 #include <Arduino.h>
 #include <EEPROM.h>
 
@@ -39,7 +40,7 @@ bool Wallet::initWithStringifiedPrivateKey(const char *privateKeyAsString)
 
 Wallet::Wallet() : initialized(false), luksoAddress(""), privKey(), pubKey()
 {
-  uECC_set_rng(&randomNumberGenerator);
+  uECC_set_rng(&trueRandomNumberGenerator);
 }
 
 bool Wallet::init()
@@ -189,7 +190,7 @@ bool Wallet::signUnhashedMessage(const char* message, uint8_t hashedMessage[KECC
     return false;
   }
 
-  hex2bin(keccak256("This is a test").c_str(), hashedMessage);
+  hex2bin(keccak256(message).c_str(), hashedMessage);
   return signHashedMessage(hashedMessage, signature);
 }
 
