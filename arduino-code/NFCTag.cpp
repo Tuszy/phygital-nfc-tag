@@ -265,7 +265,7 @@ void NFCTag::updateNDEFRecords(const char *contractAddress)
 {
   uint16_t memLoc = st25.getCCFileLen();
   st25.setMailboxActive(false);
-  st25.writeNDEFURI("lukso-tag.tuszy.com", SFE_ST25DV_NDEF_URI_ID_CODE_HTTPS_WWW, &memLoc, true, false);
+  st25.writeNDEFURI("phygital.tuszy.com", SFE_ST25DV_NDEF_URI_ID_CODE_HTTPS_WWW, &memLoc, true, false);
   st25.writeNDEFText(wallet.getLuksoAddress(), &memLoc, false, contractAddress == nullptr);
   if(contractAddress != nullptr) st25.writeNDEFText(contractAddress, &memLoc, false, true);
   st25.setMailboxActive(true);
