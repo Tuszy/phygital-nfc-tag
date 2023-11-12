@@ -84,11 +84,7 @@ void setup()
 
 void loop()
 {
-  uint8_t messageHash[KECCAK_HASH_LENGTH];
-  hex2bin("cdeb240db282254dfe6c7a01af9a1b1ab3f42dab189faba9c73ce873107b9b16", messageHash);
-  uint8_t signature[SIGNATURE_LENGTH];
-  wallet.signHashedMessage(messageHash, signature);
-  delay(1000);
+  delay(1);  
 }
 
 void SystemClock_Config(void)
