@@ -560,7 +560,7 @@ typedef struct EccPoint
     uECC_word_t y[uECC_WORDS];
 } EccPoint;
 
-static const uint8_t calculateVFromEccPoint(EccPoint eccPoint, uint32_t chainId);
+static const uint8_t calculateVFromEccPoint(EccPoint eccPoint, uint32_t chainId, uint8_t flipped);
 
 static const uECC_word_t curve_p[uECC_WORDS] = uECC_CONCAT(Curve_P_, uECC_CURVE);
 static const uECC_word_t curve_b[uECC_WORDS] = uECC_CONCAT(Curve_B_, uECC_CURVE);
@@ -3065,12 +3065,12 @@ static void vli_modMult_n(uECC_word_t *result, const uECC_word_t *left, const uE
 
 // https://bitcoin.stackexchange.com/questions/38351/ecdsa-v-r-s-what-is-v
 // https://eips.ethereum.org/EIPS/eip-155
-static const uint8_t calculateVFromEccPoint(EccPoint eccPoint, uint32_t chainId)
+static const uint8_t calculateVFromEccPoint(EccPoint eccPoint, uint32_t chainId, uint8_t flipped)
 {
     if (chainId == 0)
-        return ((uint8_t)(eccPoint.y[0])) % 2 + 27;
+        return ((uint8_t)(eccPoint.y[0]) + flipped) % 2 + 27;
     else
-        return ((uint8_t)(eccPoint.y[0])) % 2 + 35 + chainId * 2;
+        return ((uint8_t)(eccPoint.y[0]) + flipped) % 2 + 35 + chainId * 2;
 }
 
 static int uECC_sign_with_k(const uint8_t private_key[uECC_BYTES],
@@ -3167,8 +3167,18 @@ static int uECC_sign_with_k(const uint8_t private_key[uECC_BYTES],
         return 0;
     }
 #endif
+
+    uint8_t flipped = 0;
+    uECC_word_t curve_n_half[uECC_N_WORDS] = uECC_CONCAT(Curve_N_, uECC_CURVE);
+    vli_rshift1(curve_n_half);
+    if (vli_cmp(s, curve_n_half) == 1)
+    {
+        vli_sub(s, curve_n, s);
+        flipped = 1;
+    }
+
     vli_nativeToBytes(signature + uECC_BYTES, s);
-    signature[uECC_BYTES + uECC_BYTES] = calculateVFromEccPoint(p, chainId);
+    signature[uECC_BYTES + uECC_BYTES] = calculateVFromEccPoint(p, chainId, flipped);
     return 1;
 }
 
