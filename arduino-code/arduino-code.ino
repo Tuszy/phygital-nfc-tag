@@ -5,7 +5,7 @@
 #include "crypto-util.h"
 #include "uECC.h"
 
-#define GPO_PIN A1
+#define GPO_PIN PA12
 
 extern "C" void SystemClock_Config(void);
 extern "C" void HAL_RNG_MspInit(RNG_HandleTypeDef *hrng);
