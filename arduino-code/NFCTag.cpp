@@ -14,14 +14,14 @@ NFCTag::NFCTag(Wallet &wallet)
 bool NFCTag::initConfiguration()
 {
 #ifdef DEBUG
-  Serial.println("Initializing ST25DV configuration...");
+  Serial1.println("Initializing ST25DV configuration...");
 #endif
 
   // open security session with correct password
   if (!st25.openI2CSession(correctPassword))
   {
 #ifdef DEBUG
-    Serial.println("Failed to open security session with correct password");
+    Serial1.println("Failed to open security session with correct password");
 #endif
     return false;
   }
@@ -29,7 +29,7 @@ bool NFCTag::initConfiguration()
   if (!st25.setLockCCFile(false))
   {
 #ifdef DEBUG
-    Serial.println("Failed to lock cc file");
+    Serial1.println("Failed to lock cc file");
 #endif
     return false;
   }
@@ -41,7 +41,7 @@ bool NFCTag::initConfiguration()
 #endif
   {
 #ifdef DEBUG
-    Serial.println("Failed to write cc file");
+    Serial1.println("Failed to write cc file");
 #endif
     return false;
   }
@@ -49,7 +49,7 @@ bool NFCTag::initConfiguration()
   if (!st25.setLockCCFile(true))
   {
 #ifdef DEBUG
-    Serial.println("Failed to lock cc file");
+    Serial1.println("Failed to lock cc file");
 #endif
     return false;
   }
@@ -58,7 +58,7 @@ bool NFCTag::initConfiguration()
   if (!st25.setEH_MODEBit(false))
   {
 #ifdef DEBUG
-    Serial.println("Failed to enable energy harvesting");
+    Serial1.println("Failed to enable energy harvesting");
 #endif
     return false;
   }
@@ -67,7 +67,7 @@ bool NFCTag::initConfiguration()
   if (!st25.enableMailbox())
   {
 #ifdef DEBUG
-    Serial.println("Failed to enable mailbox");
+    Serial1.println("Failed to enable mailbox");
 #endif
     return false;
   }
@@ -76,7 +76,7 @@ bool NFCTag::initConfiguration()
   if (!st25.setAreaRfRwProtection(1, SF_ST25DV_RF_RW_PROTECTION::RF_RW_READ_SECURITY_WRITE_NEVER))
   {
 #ifdef DEBUG
-    Serial.println("Failed to disable writing through RF");
+    Serial1.println("Failed to disable writing through RF");
 #endif
     return false;
   }
@@ -85,7 +85,7 @@ bool NFCTag::initConfiguration()
   if (!st25.setGPO1Bit(BIT_GPO1_FIELD_CHANGE_EN | BIT_GPO1_RF_USER_EN | BIT_GPO1_RF_ACTIVITY_EN | BIT_GPO1_RF_INTERRUPT_EN | BIT_GPO1_RF_GET_MSG_EN | BIT_GPO1_RF_WRITE_EN, false))
   {
 #ifdef DEBUG
-    Serial.println("Failed to disable GPO1 bits: BIT_GPO1_FIELD_CHANGE_EN | BIT_GPO1_RF_USER_EN | BIT_GPO1_RF_ACTIVITY_EN | BIT_GPO1_RF_INTERRUPT_EN | BIT_GPO1_RF_GET_MSG_EN | BIT_GPO1_RF_WRITE_EN");
+    Serial1.println("Failed to disable GPO1 bits: BIT_GPO1_FIELD_CHANGE_EN | BIT_GPO1_RF_USER_EN | BIT_GPO1_RF_ACTIVITY_EN | BIT_GPO1_RF_INTERRUPT_EN | BIT_GPO1_RF_GET_MSG_EN | BIT_GPO1_RF_WRITE_EN");
 #endif
     return false;
   }
@@ -93,7 +93,7 @@ bool NFCTag::initConfiguration()
   if (!st25.setGPO1Bit(BIT_GPO1_RF_PUT_MSG_EN | BIT_GPO1_GPO_EN, true))
   {
 #ifdef DEBUG
-    Serial.println("Failed to enable GPO1 bits: BIT_GPO1_RF_PUT_MSG_EN | BIT_GPO1_GPO_EN");
+    Serial1.println("Failed to enable GPO1 bits: BIT_GPO1_RF_PUT_MSG_EN | BIT_GPO1_GPO_EN");
 #endif
     return false;
   }
@@ -101,7 +101,7 @@ bool NFCTag::initConfiguration()
   if (!st25.lockConfiguration())
   {
 #ifdef DEBUG
-    Serial.println("Failed to lock configuration");
+    Serial1.println("Failed to lock configuration");
 #endif
     return false;
   }
@@ -114,7 +114,7 @@ bool NFCTag::initConfiguration()
   EEPROM.write(EEPROM_NFC_TAG_INITIALIZED_ADDRESS, EEPROM_NFC_TAG_INITIALIZED_MAGIC_VALUE);
 
 #ifdef DEBUG
-  Serial.println("Initialization done.");
+  Serial1.println("Initialization done.");
 #endif
 
   return true;
@@ -129,7 +129,7 @@ bool NFCTag::init()
     if (!initConfiguration())
     {
 #ifdef DEBUG
-      Serial.println("Failed to initialize configuration");
+      Serial1.println("Failed to initialize configuration");
 #endif
       return false;
     }
@@ -138,7 +138,7 @@ bool NFCTag::init()
   if (!st25.setMailboxActive(true))
   {
 #ifdef DEBUG
-    Serial.println("Failed to activate mailbox");
+    Serial1.println("Failed to activate mailbox");
 #endif
     return false;
   }
@@ -149,18 +149,20 @@ bool NFCTag::init()
 
 bool NFCTag::begin()
 {
+  Wire.setSCL(PB6);
+  Wire.setSDA(PB7);
   Wire.begin();
 
   if (!st25.begin(Wire))
   {
 #ifdef DEBUG
-    Serial.println("NFC tag ST25 not detected. Freezing...");
+    Serial1.println("NFC tag ST25 not detected. Freezing...");
 #endif
     return false;
   }
 
 #ifdef DEBUG
-  Serial.println("NFC tag ST25 connected.");
+  Serial1.println("NFC tag ST25 connected.");
 #endif
 
   return true;

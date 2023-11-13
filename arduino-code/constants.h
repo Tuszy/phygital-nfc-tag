@@ -1,5 +1,11 @@
 #pragma once
 
+#define SERIAL_UART_INSTANCE 1
+#define ENABLE_HWSERIAL1 1
+#define USART1 1
+
+#include <HardwareSerial.h>
+
 #define DEBUG
 
 #define PRIVATE_KEY_LENGTH 32
@@ -23,3 +29,5 @@
 #define NDEF_URI_POSTFIX_LENGTH 1
 #define NDEF_TEXT_PREFIX_LENGTH 7
 #define NDEF_TEXT_LANGUAGE_CODE_PREFIX_LENGTH 3
+
+extern HardwareSerial Serial1;

@@ -32,6 +32,7 @@ int trueRandomNumberGenerator(uint8_t *dest, unsigned size)
 
 Wallet wallet;
 NFCTag nfcTag(wallet);
+HardwareSerial Serial1(PA10, PA9);
 
 // Interrupt Service Routine
 void handleMessage()
@@ -42,43 +43,47 @@ void handleMessage()
 void setup()
 {
 #ifdef DEBUG
-  Serial.begin(115200);
-  Serial.println("Booting...");
+  Serial1.begin(115200);
+  
+  Serial1.println("Booting...");
 #endif
 
   hrng.Instance = RNG;
   if (HAL_RNG_Init(&hrng) != HAL_OK)
   {
 #ifdef DEBUG
-    Serial.println("Booting failed. Could not init random number generator. Freezing...");
+    Serial1.println("Booting failed. Could not init random number generator. Freezing...");
 #endif
-    while (true)
+    while (true){
       delay(1); // Infinite loop
+    }
   }
 
   if (!wallet.init())
   {
 #ifdef DEBUG
-    Serial.println("Booting failed. Could not init wallet. Freezing...");
+    Serial1.println("Booting failed. Could not init wallet. Freezing...");
 #endif
-    while (true)
+    while (true){
       delay(1); // Infinite loop
+    }
   }
 
   if (!nfcTag.init())
   {
 #ifdef DEBUG
-    Serial.println("Booting failed. Could not init nfc tag. Freezing...");
+    Serial1.println("Booting failed. Could not init nfc tag. Freezing...");
 #endif
-    while (true)
+    while (true){
       delay(1); // Infinite loop
+    }
   }
 
   pinMode(GPO_PIN, INPUT);
   attachInterrupt(digitalPinToInterrupt(GPO_PIN), handleMessage, CHANGE);
 
 #ifdef DEBUG
-  Serial.println("Booting succeeded.");
+  Serial1.println("Booting succeeded.");
 #endif
 }
 

@@ -7,33 +7,33 @@
 
 static void printHex(const uint8_t buffer[], const uint8_t len)
 {
-  Serial.print("0x");
+  Serial1.print("0x");
   for (uint8_t i = 0; i < len; i++)
-    Serial.printf("%02X", buffer[i]);
-  Serial.println("");
+    Serial1.printf("%02X", buffer[i]);
+  Serial1.println("");
 }
 
 bool Wallet::initWithStringifiedPrivateKey(const char *privateKeyAsString)
 {
-  Serial.println("");
-  Serial.println("Initializing keys with stringified private key...");
+  Serial1.println("");
+  Serial1.println("Initializing keys with stringified private key...");
 
   hex2bin(privateKeyAsString, privKey);
   initialized = uECC_compute_public_key(privKey, pubKey) != 0;
   if (!initialized)
   {
-    Serial.println("Failed.");
+    Serial1.println("Failed.");
     return false;
   }
   calculateLuksoAddress();
 
-  Serial.print("Private key: ");
+  Serial1.print("Private key: ");
   printHex(privKey, PRIVATE_KEY_LENGTH);
-  Serial.print("Public key: ");
+  Serial1.print("Public key: ");
   printHex(pubKey, PUBLIC_KEY_LENGTH);
-  Serial.print("Lukso address: ");
-  Serial.println(luksoAddress.c_str());
-  Serial.println("Done initializing.");
+  Serial1.print("Lukso address: ");
+  Serial1.println(luksoAddress.c_str());
+  Serial1.println("Done initializing.");
 
   return true;
 }
@@ -51,14 +51,14 @@ bool Wallet::init()
 bool Wallet::createKeys()
 {
 #ifdef DEBUG
-  Serial.println("");
-  Serial.println("Creating keys...");
+  Serial1.println("");
+  Serial1.println("Creating keys...");
 #endif
 
   if (uECC_make_key(pubKey, privKey) == 0)
   {
 #ifdef DEBUG
-    Serial.println("Failed.");
+    Serial1.println("Failed.");
 #endif
     return false;
   }
@@ -66,13 +66,13 @@ bool Wallet::createKeys()
   calculateLuksoAddress();
 
 #ifdef DEBUG
-  Serial.print("Private key: ");
+  Serial1.print("Private key: ");
   printHex(privKey, PRIVATE_KEY_LENGTH);
-  Serial.print("Public key: ");
+  Serial1.print("Public key: ");
   printHex(pubKey, PUBLIC_KEY_LENGTH);
-  Serial.print("Lukso address: ");
-  Serial.println(luksoAddress.c_str());
-  Serial.println("Done creating.");
+  Serial1.print("Lukso address: ");
+  Serial1.println(luksoAddress.c_str());
+  Serial1.println("Done creating.");
 #endif
   return true;
 }
@@ -80,8 +80,8 @@ bool Wallet::createKeys()
 void Wallet::loadKeys()
 {
 #ifdef DEBUG
-  Serial.println("");
-  Serial.println("Loading keys...");
+  Serial1.println("");
+  Serial1.println("Loading keys...");
 #endif
 
   for (uint8_t i = 0; i < PRIVATE_KEY_LENGTH; i++)
@@ -92,21 +92,21 @@ void Wallet::loadKeys()
   calculateLuksoAddress();
 
 #ifdef DEBUG
-  Serial.print("Private key: ");
+  Serial1.print("Private key: ");
   printHex(privKey, PRIVATE_KEY_LENGTH);
-  Serial.print("Public key: ");
+  Serial1.print("Public key: ");
   printHex(pubKey, PUBLIC_KEY_LENGTH);
-  Serial.print("Lukso address: ");
-  Serial.println(luksoAddress.c_str());
-  Serial.println("Done loading.");
+  Serial1.print("Lukso address: ");
+  Serial1.println(luksoAddress.c_str());
+  Serial1.println("Done loading.");
 #endif
 }
 
 void Wallet::saveKeys()
 {
 #ifdef DEBUG
-  Serial.println("");
-  Serial.println("Saving keys...");
+  Serial1.println("");
+  Serial1.println("Saving keys...");
 #endif
 
   EEPROM.write(EEPROM_KEYS_INITIALIZED_ADDRESS, EEPROM_KEYS_INITIALIZED_MAGIC_VALUE);
@@ -118,21 +118,21 @@ void Wallet::saveKeys()
   calculateLuksoAddress();
 
 #ifdef DEBUG
-  Serial.print("Private key: ");
+  Serial1.print("Private key: ");
   printHex(privKey, PRIVATE_KEY_LENGTH);
-  Serial.print("Public key: ");
+  Serial1.print("Public key: ");
   printHex(pubKey, PUBLIC_KEY_LENGTH);
-  Serial.print("Lukso address: ");
-  Serial.println(luksoAddress.c_str());
-  Serial.println("Done saving.");
+  Serial1.print("Lukso address: ");
+  Serial1.println(luksoAddress.c_str());
+  Serial1.println("Done saving.");
 #endif
 }
 
 bool Wallet::loadOrCreateKeys()
 {
 #ifdef DEBUG
-  Serial.print("EEPROM STATE: ");
-  Serial.printf("%02X\n", EEPROM.read(EEPROM_KEYS_INITIALIZED_ADDRESS));
+  Serial1.print("EEPROM STATE: ");
+  Serial1.printf("%02X\n", EEPROM.read(EEPROM_KEYS_INITIALIZED_ADDRESS));
 #endif
   if (EEPROM.read(EEPROM_KEYS_INITIALIZED_ADDRESS) == EEPROM_KEYS_INITIALIZED_MAGIC_VALUE)
   {
@@ -152,13 +152,13 @@ bool Wallet::loadOrCreateKeys()
 bool Wallet::signHashedMessage(const uint8_t messageHash[KECCAK_HASH_LENGTH], uint8_t signature[SIGNATURE_LENGTH])
 {
 #ifdef DEBUG
-  Serial.print("Signing message hash: ");
+  Serial1.print("Signing message hash: ");
   printHex(messageHash, KECCAK_HASH_LENGTH);
 #endif
   if (!initialized)
   {
 #ifdef DEBUG
-    Serial.println("Failed. Keys are not initialized");
+    Serial1.println("Failed. Keys are not initialized");
 #endif
     return false;
   }
@@ -166,12 +166,12 @@ bool Wallet::signHashedMessage(const uint8_t messageHash[KECCAK_HASH_LENGTH], ui
   if (uECC_sign(privKey, messageHash, signature, 0) == 0)
   {
 #ifdef DEBUG
-    Serial.println("Failed.");
+    Serial1.println("Failed.");
 #endif
     return false;
   }
 #ifdef DEBUG
-  Serial.print("Signature: ");
+  Serial1.print("Signature: ");
   printHex(signature, SIGNATURE_LENGTH);
 #endif
   return true;
@@ -180,12 +180,12 @@ bool Wallet::signHashedMessage(const uint8_t messageHash[KECCAK_HASH_LENGTH], ui
 bool Wallet::signUnhashedMessage(const char* message, uint8_t hashedMessage[KECCAK_HASH_LENGTH], uint8_t signature[SIGNATURE_LENGTH])
 {
 #ifdef DEBUG
-  Serial.print("Signing message: "); Serial.println(message);
+  Serial1.print("Signing message: "); Serial1.println(message);
 #endif
   if (!initialized)
   {
 #ifdef DEBUG
-    Serial.println("Failed. Keys are not initialized");
+    Serial1.println("Failed. Keys are not initialized");
 #endif
     return false;
   }
