@@ -7,7 +7,7 @@ uint8_t NFCTag::correctPassword[PASSWORD_LENGTH] = {0x0};
 uint8_t NFCTag::wrongPassword[PASSWORD_LENGTH] = {0x1};
 
 NFCTag::NFCTag(Wallet &wallet)
-  : initialized(false), wallet(wallet), message(), messageLength(0)
+    : initialized(false), wallet(wallet), message(), messageLength(0)
 {
 }
 
@@ -122,7 +122,8 @@ bool NFCTag::initConfiguration()
 
 bool NFCTag::init()
 {
-  if (!begin()) return false;
+  if (!begin())
+    return false;
 
   if (EEPROM.read(EEPROM_NFC_TAG_INITIALIZED_ADDRESS) != EEPROM_NFC_TAG_INITIALIZED_MAGIC_VALUE)
   {
@@ -188,7 +189,7 @@ bool NFCTag::fetchMessage()
   if (!st25.readFromMailbox(message, messageLength))
     return false;
 
-  newMessageLength = messageLength;
+  messageLength = newMessageLength;
 
   return true;
 }
@@ -209,15 +210,15 @@ bool NFCTag::handleMessage()
 
   switch (message[0])
   {
-    case SIGN:
-      processSignMessage();
-      break;
-    case CONTRACT_ADDRESS:
-      processContractAddress();
-      break;
-    default:
-      messageReply[0] = UNKOWN_MESSAGE;
-      writeMessage(messageReply, 1);
+  case SIGN:
+    processSignMessage();
+    break;
+  case CONTRACT_ADDRESS:
+    processContractAddress();
+    break;
+  default:
+    messageReply[0] = UNKOWN_MESSAGE;
+    writeMessage(messageReply, 1);
   }
 
   return true;
@@ -255,7 +256,7 @@ bool NFCTag::processContractAddress()
     return false;
   }
 
-  message[LUKSO_ADDRESS_AS_STRING_LENGTH + 1] = 0;
+  message[LUKSO_ADDRESS_AS_STRING_LENGTH + 2] = 0;
   updateNDEFRecords((const char *)&message[1]);
 
   messageReply[0] = CONTRACT_ADDRESS;
@@ -269,7 +270,8 @@ void NFCTag::updateNDEFRecords(const char *contractAddress)
   st25.setMailboxActive(false);
   st25.writeNDEFURI("phygital.tuszy.com", SFE_ST25DV_NDEF_URI_ID_CODE_HTTPS_WWW, &memLoc, true, false);
   st25.writeNDEFText(wallet.getLuksoAddress(), &memLoc, false, contractAddress == nullptr);
-  if(contractAddress != nullptr) st25.writeNDEFText(contractAddress, &memLoc, false, true);
+  if (contractAddress != nullptr)
+    st25.writeNDEFText(contractAddress, &memLoc, false, true);
   st25.setMailboxActive(true);
 }
 

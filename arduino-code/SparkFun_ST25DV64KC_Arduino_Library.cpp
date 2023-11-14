@@ -979,7 +979,7 @@ uint16_t SFE_ST25DV64KC::getMailboxMessageLength()
     return 0;
 
   uint8_t length = 0;
-  bool result = st25_io.readSingleByte(SF_ST25DV64KC_ADDRESS::DATA, REG_MB_CTRL_DYN, &length);
+  bool result = st25_io.readSingleByte(SF_ST25DV64KC_ADDRESS::DATA, REG_MB_LEN_DYN, &length);
 
   if (!result)
   {
