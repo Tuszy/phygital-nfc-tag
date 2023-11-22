@@ -23,7 +23,7 @@
 #include "SparkFun_ST25DV64KC_IO.h"
 #include "SparkFun_ST25DV64KC_Arduino_Library_Constants.h"
 
-#define CC_FILE_SIZE 4
+#define CC_FILE_SIZE 8
 
 class SFE_ST25DV64KC_NDEF : public SFE_ST25DV64KC
 {

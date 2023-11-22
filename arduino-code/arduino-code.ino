@@ -5,7 +5,7 @@
 #include "crypto-util.h"
 #include "uECC.h"
 
-#define GPO_PIN PA12
+#define GPO_PIN PA1
 
 extern "C" void SystemClock_Config(void);
 extern "C" void HAL_RNG_MspInit(RNG_HandleTypeDef *hrng);
@@ -37,6 +37,7 @@ HardwareSerial Serial1(PA10, PA9);
 // Interrupt Service Routine
 void handleMessage()
 {
+  delay(250);
   nfcTag.handleMessage();
 }
 
@@ -80,7 +81,7 @@ void setup()
   }
 
   pinMode(GPO_PIN, INPUT);
-  attachInterrupt(digitalPinToInterrupt(GPO_PIN), handleMessage, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(GPO_PIN), handleMessage, FALLING);
 
 #ifdef DEBUG
   Serial1.println("Booting succeeded.");
