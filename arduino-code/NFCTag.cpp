@@ -186,7 +186,7 @@ bool NFCTag::fetchMessage()
   if (newMessageLength == 0)
     return false;
 
-  if (!st25.readFromMailbox(message, messageLength))
+  if (!st25.readFromMailbox(message, newMessageLength))
     return false;
 
   messageLength = newMessageLength;
