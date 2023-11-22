@@ -256,8 +256,28 @@ bool NFCTag::processContractAddress()
     return false;
   }
 
+  uint8_t newContractAddress[LUKSO_ADDRESS_AS_STRING_LENGTH + 1];
   message[LUKSO_ADDRESS_AS_STRING_LENGTH + 2] = 0;
-  updateNDEFRecords((const char *)&message[1]);
+  memcpy(newContractAddress, &message[1], LUKSO_ADDRESS_AS_STRING_LENGTH + 1);
+
+  if (newContractAddress[0] != '0' || (newContractAddress[1] != 'X' && newContractAddress[1] != 'x'))
+  {
+    messageReply[0] = INVALID_MESSAGE_FORMAT;
+    writeMessage(messageReply, 1);
+    return false;
+  }
+
+  for (uint8_t i = 0; i < LUKSO_ADDRESS_AS_STRING_LENGTH; i++)
+  {
+    if (!((newContractAddress[i] >= 'A' && newContractAddress[i] <= 'Z') || (newContractAddress[i] >= 'a' && newContractAddress[i] <= 'z') || (newContractAddress[i] >= '0' && newContractAddress[i] <= '9')))
+    {
+      messageReply[0] = INVALID_MESSAGE_FORMAT;
+      writeMessage(messageReply, 1);
+      return false;
+    }
+  }
+
+  updateNDEFRecords((const char *)newContractAddress);
 
   messageReply[0] = CONTRACT_ADDRESS;
   writeMessage(messageReply, 1);
