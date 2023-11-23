@@ -1,3 +1,7 @@
+<p align="center">
+<img src="pcb/nfc-tag-front.png" height="330px"> <img src="pcb/nfc-tag-back.png" height="300px">
+</p>
+
 # Phygital NFC Tag
 
 App-specific, custom-developed NFC tag that identifies a non-forgeable phygital.
