@@ -56,6 +56,9 @@ The idea is to create a custom battery-less uniquely identifiable NFC tag that w
 - [STM32L432KC](https://www.st.com/en/microcontrollers-microprocessors/stm32l432kc.html) - Ultra low power STM32L4 µC - [Purchase link](https://jlcpcb.com/partdetail/Stmicroelectronics-STM32L432KCU6/C1337280) 
 - [ST25DV64KC](https://www.st.com/en/nfc/st25dv64kc.html) - Dual-interface dynamic NFC/RFID tag with energy harvesting capability - [Purchase link](https://jlcpcb.com/partdetail/Stmicroelectronics-ST25DV64KCIE8T3/C3304589)
 
+### Manual Programming Sneak Peak...
+<img src="pcb/manual-programming.jpeg" height="500px">
+
 ## PCB services and tools
 - [JLCPCB](https://jlcpcb.com/) - PCB manufacturing and assembly service
 - [EasyEDA](https://easyeda.com/) - PCB designer
