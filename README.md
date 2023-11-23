@@ -35,7 +35,7 @@ The idea is to create a custom battery-less uniquely identifiable NFC tag that w
 
 ### Libraries
 
-- [micro-ecc](https://github.com/kmackay/micro-ecc/tree/static) - Used for secp256k1 elliptic curve asymmetric key pair generation and signing of keccak256 hashes
+- [micro-ecc](https://github.com/kmackay/micro-ecc/tree/static) - Used for secp256k1 elliptic curve asymmetric key pair generation and signing of keccak256 hashes (Actually I had to extend the signing algorithm to be able to recover addresses from the signatures since they were only 64 bytes long)
 - [keccak](https://github.com/kvhnuke/Ethereum-Arduino/blob/master/Ethereum-Arduino/keccak.cpp) - Used for computing keccak256 hashes
 - [SparkFun ST25DV64KC Arduino Library](https://github.com/sparkfun/SparkFun_ST25DV64KC_Arduino_Library/tree/main) - Used for interacting with the [SparkFun Qwiic Dynamic NFC/RFID Tag](https://www.sparkfun.com/products/21274)
 - [Serial](https://www.arduino.cc/reference/en/language/functions/communication/serial/) - Used for debug logs
