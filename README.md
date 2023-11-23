@@ -55,3 +55,23 @@ The idea is to create a custom battery-less uniquely identifiable NFC tag that w
 ## PCB services and tools
 - [JLCPCB](https://jlcpcb.com/) - PCB manufacturing and assembly service
 - [EasyEDA](https://easyeda.com/) - PCB designer
+
+## Schema File
+![Schema File](pcb/pcb%20schema.png)
+
+## Gerber File
+![Gerber File](pcb/pcb.png)
+
+## 3D File
+### Front
+![PCB Front](pcb/pcb%20front.png)
+### Back
+![PCB Back](pcb/pcb%20back.png)
+
+## Manufactured PCB
+### Front
+![PCB Front](pcb/manufactured%20pcb%20front.jpeg)
+### Back
+![PCB Back](pcb/manufactured%20pcb%20back.jpeg)
+## Side
+![PCB Back](pcb/manufactured%20pcb%20side.jpeg)
