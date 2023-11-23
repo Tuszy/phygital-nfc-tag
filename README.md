@@ -8,7 +8,7 @@ App-specific, custom-developed NFC tag that identifies a non-forgeable phygital.
 
 ## Remarks
 
-Since I am just a plain software dev with zero experience in pcb design please keep in mind that this NFC Tag is just a prototype. I am a 100% sure, that it could have been done better, but I created it to the best of my knowledge and conscience. It does not work perfect all the time, but for a proof of concept it is good enough and with the gained knowledge I would have done it better. 
+Since I am just a plain software dev with zero experience in pcb design please keep in mind that this NFC Tag is just a prototype. I am a 100% sure, that it could have been done better, but I created it to the best of my knowledge and conscience. It does not work perfect all the time, but for a proof of concept it is good enough. 
 
 ## Concept
 
