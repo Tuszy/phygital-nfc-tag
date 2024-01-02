@@ -6,6 +6,7 @@
 #include "uECC.h"
 
 #define GPO_PIN PA1
+#define VCC_ST25_I2C PB4
 
 extern "C" void SystemClock_Config(void);
 extern "C" void HAL_RNG_MspInit(RNG_HandleTypeDef *hrng);
@@ -47,6 +48,9 @@ void setup()
   Serial1.begin(115200);
   
   Serial1.println("Booting...");
+
+  pinMode(VCC_ST25_I2C, OUTPUT);
+  digitalWrite(VCC_ST25_I2C, HIGH);
 #endif
 
   hrng.Instance = RNG;
