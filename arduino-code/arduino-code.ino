@@ -48,10 +48,10 @@ void setup()
   Serial1.begin(115200);
   
   Serial1.println("Booting...");
+#endif
 
   pinMode(VCC_ST25_I2C, OUTPUT);
   digitalWrite(VCC_ST25_I2C, HIGH);
-#endif
 
   hrng.Instance = RNG;
   if (HAL_RNG_Init(&hrng) != HAL_OK)
